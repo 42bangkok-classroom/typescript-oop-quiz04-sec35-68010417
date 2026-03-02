@@ -1,9 +1,11 @@
-import { Injectable,Get} from '@nestjs/common';
-
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-    test(){
-        return [];
-}
+  test() {
+    return [];
+  }
+  findAll() {
+    return;
+  }
 }
