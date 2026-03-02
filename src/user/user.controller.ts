@@ -13,5 +13,4 @@ export class UsersController {
   // @Get()
   // findAll() {
   //   return this.usersService.findAll();
-  }
-
+}
