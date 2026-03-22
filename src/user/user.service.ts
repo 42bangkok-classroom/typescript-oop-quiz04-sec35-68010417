@@ -16,7 +16,7 @@ export class UserService {
     // อ่านข้อมูลจากไฟล์
     const rawData = fs.readFileSync(this.dataPath, 'utf-8');
     // แปลงข้อมูลจาก String เป็น JSON Array
-    const users: IUser[] = JSON.parse(rawData);
+    const users = JSON.parse(rawData) as IUser[];
     return users;
   }
 }
