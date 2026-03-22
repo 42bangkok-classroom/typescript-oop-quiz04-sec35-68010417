@@ -85,99 +85,6 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path="src/products/dto/create-product.dto.ts">
-export class CreateProductDto {}
-</file>
-
-<file path="src/products/dto/update-product.dto.ts">
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateProductDto } from './create-product.dto';
-
-export class UpdateProductDto extends PartialType(CreateProductDto) {}
-</file>
-
-<file path="src/products/entities/product.entity.ts">
-export class Product {}
-</file>
-
-<file path="src/products/products.controller.ts">
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-
-@Controller('products')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
-
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.productsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
-  }
-}
-</file>
-
-<file path="src/products/products.module.ts">
-import { Module } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { ProductsController } from './products.controller';
-
-@Module({
-  controllers: [ProductsController],
-  providers: [ProductsService],
-})
-export class ProductsModule {}
-</file>
-
-<file path="src/products/products.service.ts">
-import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-
-@Injectable()
-export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
-  }
-
-  findAll() {
-    return `This action returns all products`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
-
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
-}
-</file>
-
 <file path=".github/classroom/autograding.json">
 {
     "title": "TypeScript OOP Quiz 4 Section 35",
@@ -379,6 +286,62 @@ jobs:
     "username": "piya_r"
   }
 ]
+</file>
+
+<file path="src/products/dto/create-product.dto.ts">
+export class CreateProductDto {}
+</file>
+
+<file path="src/products/dto/update-product.dto.ts">
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateProductDto } from './create-product.dto';
+
+export class UpdateProductDto extends PartialType(CreateProductDto) {}
+</file>
+
+<file path="src/products/entities/product.entity.ts">
+export class Product {}
+</file>
+
+<file path="src/products/products.module.ts">
+import { Module } from '@nestjs/common';
+import { ProductsService } from './products.service';
+import { ProductsController } from './products.controller';
+
+@Module({
+  controllers: [ProductsController],
+  providers: [ProductsService],
+})
+export class ProductsModule {}
+</file>
+
+<file path="src/products/products.service.ts">
+import { Injectable } from '@nestjs/common';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+
+@Injectable()
+export class ProductsService {
+  create(createProductDto: CreateProductDto) {
+    return 'This action adds a new product';
+  }
+
+  findAll() {
+    return `This action returns all products`;
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} product`;
+  }
+
+  update(id: number, updateProductDto: UpdateProductDto) {
+    return `This action updates a #${id} product`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} product`;
+  }
+}
 </file>
 
 <file path="src/app.controller.ts">
@@ -778,6 +741,51 @@ export default tseslint.config(
 }
 </file>
 
+<file path="src/products/products.controller.ts">
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ProductsService } from './products.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+
+@Controller('products')
+export class ProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+
+  @Post()
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.create(createProductDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.productsService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.productsService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    return this.productsService.update(+id, updateProductDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.productsService.remove(+id);
+  }
+}
+</file>
+
 <file path="src/user/user.interface.ts">
 export interface IUser {
   id: string;
@@ -950,32 +958,28 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 <file path="src/user/user.module.ts">
 import { Module } from '@nestjs/common';
-import { UsersController } from './user.controller';
-import { UsersService } from './user.service';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
 
 @Module({
-  controllers: [UsersController],
-  providers: [UsersService],
+  controllers: [UserController],
+  providers: [UserService],
 })
-export class UsersModule {}
+export class UserModule {}
 </file>
 
 <file path="src/user/user.controller.ts">
 import { Controller, Get } from '@nestjs/common';
-import { UsersService } from './user.service';
+import { UserService } from './user.service';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-  @Get(':test')
-  getTest() {
-    return this.usersService.test();
+  @Get('test')
+  test() {
+    return this.userService.test();
   }
-
-  // @Get()
-  // findAll() {
-  //   return this.usersService.findAll();
 }
 </file>
 
@@ -983,7 +987,7 @@ export class UsersController {
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   test() {
     return [];
   }
@@ -994,15 +998,12 @@ export class UsersService {
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersService } from './user/user.service';
-import { UsersController } from './user/user.controller';
-import { UsersModule } from './user/user.module';
-import { ProductsModule } from './products/products.module';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [UsersModule, UsersModule, ProductsModule],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService],
+  imports: [UserModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
 </file>
