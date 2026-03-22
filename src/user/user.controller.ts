@@ -1,16 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { UsersService } from './user.service';
+import { UserService } from './user.service';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-  @Get(':test')
-  getTest() {
-    return this.usersService.test();
+  @Get('test') // เอาเครื่องหมาย : ออก เพื่อให้เป็น exact path
+  test() {
+    return this.userService.test();
   }
-
-  // @Get()
-  // findAll() {
-  //   return this.usersService.findAll();
 }
