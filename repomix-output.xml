@@ -58,6 +58,8 @@ src/
     products.module.ts
     products.service.ts
   user/
+    dto/
+      create-user.dto.ts
     user.controller.ts
     user.interface.ts
     user.module.ts
@@ -342,6 +344,10 @@ export class ProductsService {
     return `This action removes a #${id} product`;
   }
 }
+</file>
+
+<file path="src/user/dto/create-user.dto.ts">
+export class CreateUserDto {}
 </file>
 
 <file path="src/app.controller.ts">
@@ -968,29 +974,18 @@ import { UserService } from './user.service';
 export class UserModule {}
 </file>
 
-<file path="src/user/user.service.ts">
-import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
-import { IUser } from './user.interface';
+<file path="src/app.module.ts">
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UserModule } from './user/user.module';
 
-@Injectable()
-export class UserService {
-  // กำหนด path ไปที่ไฟล์ data/users.json โดยเริ่มจาก root ของโปรเจกต์
-  private readonly dataPath = path.join(process.cwd(), 'data', 'users.json');
-
-  test() {
-    return [];
-  }
-
-  findAll(): IUser[] {
-    // อ่านข้อมูลจากไฟล์
-    const rawData = fs.readFileSync(this.dataPath, 'utf-8');
-    // แปลงข้อมูลจาก String เป็น JSON Array
-    const users: IUser[] = JSON.parse(rawData);
-    return users;
-  }
-}
+@Module({
+  imports: [UserModule],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
 </file>
 
 <file path="src/user/user.controller.ts">
@@ -1013,18 +1008,29 @@ export class UserController {
 }
 </file>
 
-<file path="src/app.module.ts">
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
+<file path="src/user/user.service.ts">
+import { Injectable } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
+import { IUser } from './user.interface';
 
-@Module({
-  imports: [UserModule],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
+@Injectable()
+export class UserService {
+  // กำหนด path ไปที่ไฟล์ data/users.json โดยเริ่มจาก root ของโปรเจกต์
+  private readonly dataPath = path.join(process.cwd(), 'data', 'users.json');
+
+  test() {
+    return [];
+  }
+
+  findAll(): IUser[] {
+    // อ่านข้อมูลจากไฟล์
+    const rawData = fs.readFileSync(this.dataPath, 'utf-8');
+    // แปลงข้อมูลจาก String เป็น JSON Array
+    const users = JSON.parse(rawData) as IUser[];
+    return users;
+  }
+}
 </file>
 
 </files>
