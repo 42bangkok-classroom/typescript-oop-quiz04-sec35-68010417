@@ -21,13 +21,10 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(
-    @Param('id') id: string, 
-    @Query('fields') fields?: string
-  ) {
+  findOne(@Param('id') id: string, @Query('fields') fields?: string) {
     // ถ้ามี fields ส่งมา (เช่น "firstName,lastName") ให้หั่นเป็น Array ด้วยเครื่องหมายลูกน้ำ
     const fieldsArray = fields ? fields.split(',') : undefined;
-    
+
     // ส่งข้อมูล id และ fieldsArray ไปให้ Service จัดการต่อ
     return this.userService.findOne(id, fieldsArray);
   }
