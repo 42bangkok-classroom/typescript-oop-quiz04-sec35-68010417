@@ -18,34 +18,28 @@ export class UserService {
     return users;
   }
 
-  findOne(id: string, fields?: string[]): Partial<IUser> {
-    // 1. ดึงข้อมูลทั้งหมดมาก่อน
-    const users = this.findAll();
-
-    // 2. ใช้ .find() หา User ที่มี id ตรงกับที่ขอมา
+  findOne(id: string, fields?: string[]) {
+    const filePath = path.join(process.cwd(), 'data', 'users.json');
+    // eslint-disable-next-line
+    const users: IUser[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
     const user = users.find((u) => u.id === id);
 
-    // 3. ถ้าหาไม่เจอ ให้โยน Error 404 (NotFoundException) ทิ้งไปเลย
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    // 4. ถ้าเจอ User แล้ว และมีการระบุ fields ที่ต้องการมาด้วย
-    if (fields && fields.length > 0) {
-      const filteredUser: any = {};
-
-      // เอา fields มาวนลูป เพื่อดึงเฉพาะค่าที่ผู้ใช้ขอ
+    if (fields) {
+      // ระบุ Type ให้ชัดเจนว่าเป็น Partial<IUser> เพื่อแก้ Error ลินเตอร์
+      const filteredUser: Partial<IUser> = {};
       fields.forEach((field) => {
-        // ดึงค่าจากตัวแปร user มายัดใส่ filteredUser
-        if (user[field as keyof IUser] !== undefined) {
-          filteredUser[field] = user[field as keyof IUser];
+        const key = field as keyof IUser;
+        if (user[key] !== undefined) {
+          filteredUser[key] = user[key];
         }
       });
-
-      return filteredUser; // คืนค่าเฉพาะบาง field
+      return filteredUser;
     }
 
-    // 5. ถ้าไม่ได้ระบุ fields ก็แปลว่าขอข้อมูลเต็มๆ ก็คืนค่า user ทั้งก้อนไปเลย
     return user;
   }
 
